@@ -1,0 +1,6 @@
+---
+  - name: Yum install epel
+    yum: name=epel-release
+
+  - name: Yum install munge
+    yum: name=munge
