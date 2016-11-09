@@ -18,5 +18,5 @@
   - name: set log directory access rights
     file: path=/var/log state=directory mode=0755
 
-  - name: Include "{{ssh_type_of_node}}" munge recipe
-    include: "{{ssh_type_of_node}}.yaml"
+  - name: Include "{{munge_type_of_node}}" munge recipe
+    include: "{{munge_type_of_node}}.yaml"
