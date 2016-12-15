@@ -5,6 +5,10 @@
   - name: Yum install munge
     yum: name=munge
 
+  - name: Yum install packages for Centos 6
+    yum: name=libselinux-python
+    when: ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 6
+
   # Fix for centos 6 due to socket errors
   - name: Create munge config file
     copy:

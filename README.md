@@ -12,14 +12,9 @@ Install munge service in the front and wn nodes.
 Example Playbook
 ----------------
 ```
-  - hosts: server
+- hosts: server
   roles:
   - { role: 'grycap.munge', munge_type_of_node: 'front' }
-```
-```
-  - hosts: client
-  roles:
-  - { role: 'grycap.munge', munge_type_of_node: 'wn' }
 ```
 
 Contributing to the role
