@@ -8,6 +8,8 @@ Install munge service in the front and wn nodes.
 
 	# Type of node to install: front or wn
 	munge_type_of_node: front
+	# Password used to derive a munge key for authentication between the server and the workers
+	munge_key_password: ''
 
 Example Playbook
 ----------------

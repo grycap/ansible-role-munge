@@ -37,8 +37,16 @@ script:
   # Test role.
   - 'docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml'
 
-  # Check the im service.
+  # Check the munge is installed.
   - 'docker exec "$(cat ${container_id})" which munge'
+  - 'docker exec "$(cat ${container_id})" ls /etc/munge/munge.key'
 
+  - 'docker exec "$(cat ${container_id})" rm /etc/munge/munge.key'
+
+  # Test role with munge_key_password
+  - 'docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml -e "munge_key_password=rgewnvsnklqfewnl"'
+
+  # Check the munge is installed.
+  - 'docker exec "$(cat ${container_id})" ls /etc/munge/munge.key'
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
