@@ -1,3 +1,4 @@
 ---
 # Type of node to install: front or wn
 munge_type_of_node: front
+munge_key_password: ''
