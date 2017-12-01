@@ -3,10 +3,16 @@
     shell: create-munge-key < /dev/null creates=/etc/munge/munge.key
     when: not munge_key.stat.exists and munge_key_password == ''
     notify: restart munge
-  
-  - name: Create munge key with password
-    shell: echo -n "{{ munge_key_password }}" | sha512sum | cut -d' ' -f1 >/etc/munge/munge.key
-    when: not munge_key.stat.exists and munge_key_password != ''
+
+  - name: Generate munge key with password
+    shell: echo -n "{{ munge_key_password }}" | sha512sum | cut -d' ' -f1 
+    when: munge_key_password != ''
+    register: key_content
+    changed_when: false
+
+  - name: Create munge.key file with password
+    copy: content="{{ key_content.stdout }}" dest=/etc/munge/munge.key mode=0444
+    when: munge_key_password != ''
 
   - name: Start munge service
     service: name=munge state=started
