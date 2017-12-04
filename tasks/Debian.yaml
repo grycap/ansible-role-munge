@@ -6,8 +6,3 @@
   - name: Delete /etc/munge/munge.key created in munge installation
     file: path=/etc/munge/munge.key state=absent
     when: munge_install|changed
-
-  - name: Restart Munge service
-    service: name=munge state=restarted
-    when: munge_install|changed
-

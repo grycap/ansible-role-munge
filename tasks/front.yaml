@@ -14,5 +14,9 @@
     copy: content="{{ key_content.stdout }}" dest=/etc/munge/munge.key mode=0444
     when: munge_key_password != ''
 
+  - name: Restart Munge service
+    service: name=munge state=restarted
+    when: not munge_key.stat.exists or munge_key_password != ''
+
   - name: Start munge service
     service: name=munge state=started
