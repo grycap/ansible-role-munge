@@ -20,20 +20,3 @@
       file:
         path: /etc/munge/munge.key
       changed_when: False
-
-    - name: Remove munge key 
-      file:
-        path: /etc/munge/munge.key
-        state: absent
-      changed_when: False
-
-    - name: "Include grycap.munge"
-      include_role:
-        name: "ansible-role-munge"
-      vars:
-        munge_key_password: rgewnvsnklqfewnl
-
-    - name: Test munge key exists 
-      file:
-        path: /etc/munge/munge.key
-      changed_when: False
