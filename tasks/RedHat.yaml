@@ -6,9 +6,15 @@
     yum: name=munge,munge-devel
     when: ansible_distribution_major_version|int < 8
 
-  - name: Yum install munge RHEL 8+
+  - name: Yum install munge RHEL 8+ (powertools)
     yum: name=munge,munge-devel enablerepo=powertools
     when: ansible_distribution_major_version|int >= 8
+    ignore_errors: yes
+    register: munge_powertools
+
+  - name: Yum install munge RHEL 8+ (PowerTools)
+    yum: name=munge,munge-devel enablerepo=PowerTools
+    when: ansible_distribution_major_version|int >= 8 and munge_powertools is failed
 
   - block:
     - name: Yum install packages for Centos 6
