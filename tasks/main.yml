@@ -5,7 +5,7 @@
     ignore_errors: yes
 
   - name: Include "{{ansible_os_family}}" munge recipe if package is not present
-    include: "{{ansible_os_family}}.yaml"
+    include_tasks: "{{ansible_os_family}}.yaml"
     when: munge_installed is failed
 
   - name: Register munge key
@@ -31,7 +31,7 @@
     when: not munge_key.stat.exists and munge_key_password != ''
 
   - name: Include "{{munge_type_of_node}}" munge recipe
-    include: "{{munge_type_of_node}}.yaml"
+    include_tasks: "{{munge_type_of_node}}.yaml"
 
   - name: Restart Munge service
     service: name=munge state=restarted

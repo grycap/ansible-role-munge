@@ -1,4 +1,6 @@
 galaxy_info:
+  role_name: munge
+  namespace: grycap
   author: alpegon3@upv.es
   description: Install munge service
   company:  GRyCAP
@@ -7,11 +9,12 @@ galaxy_info:
   platforms:
   - name: EL
     versions:
-    - 6
-    - 7
+    - 8
+    - 9
   - name: Ubuntu
     versions:
-    - trusty
+    - focal
+    - jammy
   galaxy_tags:
     - munge
 
