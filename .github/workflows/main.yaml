@@ -13,14 +13,15 @@ jobs:
 
   molecule:
     name: Molecule
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         distro:
           - centos7
           - centos8
-          - ubuntu1804
+          - rockylinux9
           - ubuntu2004
+          - ubuntu2204
 
     steps:
       - name: Check out the codebase.
