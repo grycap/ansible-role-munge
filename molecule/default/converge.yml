@@ -8,9 +8,6 @@
     - name: "Include grycap.munge"
       include_role:
         name: "ansible-role-munge"
-      vars:
-        nfs_mode: 'front'
-        nfs_exports: [{path: "/run/test", export: "localhost(fsid=0,rw,async,no_subtree_check,insecure)"}]
 
     - name: Test munge is in path
       command: which munge
