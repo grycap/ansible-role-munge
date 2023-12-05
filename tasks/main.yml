@@ -8,34 +8,30 @@
     include_tasks: "{{ansible_os_family}}.yaml"
     when: munge_installed is failed
 
-  - name: Register munge key
-    stat: path=/etc/munge/munge.key
-    register: munge_key
-
   - name: set munge log directory access rights
     file: path=/var/log/munge state=directory mode=0700
 
   - name: set log directory access rights
     file: path=/var/log state=directory mode=0755
 
-  - block:
+  - name: Generate munge key password
+    set_fact:
+      munge_key_password: "{{ lookup('password', '/var/tmp/munge_pass') }}"
+    when: munge_key_password == ''
+    delegate_to: localhost
 
-    - name: Generate munge key with password
-      shell: echo -n "{{ munge_key_password }}" | sha512sum | cut -d' ' -f1 
-      register: key_content
-      changed_when: false
+  - name: Generate munge key with password
+    shell: echo -n "{{ munge_key_password }}" | sha512sum | cut -d' ' -f1 
+    register: key_content
+    changed_when: false
 
-    - name: Create munge.key file with password
-      copy: content="{{ key_content.stdout }}" dest=/etc/munge/munge.key mode=0400 owner=munge
-
-    when: not munge_key.stat.exists and munge_key_password != ''
-
-  - name: Include "{{munge_type_of_node}}" munge recipe
-    include_tasks: "{{munge_type_of_node}}.yaml"
+  - name: Create munge.key file with password
+    copy: content="{{ key_content.stdout }}" dest=/etc/munge/munge.key mode=0400 owner=munge
+    register: munge_key_create
 
   - name: Restart Munge service
     service: name=munge state=restarted
-    when: not munge_key.stat.exists
+    when: munge_key_create is changed
 
   - name: Make sure the munge service is started
     service: name=munge state=started enabled=yes
