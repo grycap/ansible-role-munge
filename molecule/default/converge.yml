@@ -10,7 +10,7 @@
         name: "ansible-role-munge"
 
     - name: Test munge is in path
-      command: which munge
+      shell: munge -n | unmunge
       changed_when: False
 
     - name: Test munge key exists 
